@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
-import { GlobalContext } from '../context/global_context.js';
 import Attractions from '../components/attractions.js';
 import Restaurants from '../components/restaurants.js';
 
@@ -17,9 +16,7 @@ export default function Result() {
                             <Attractions />
                         </Tab>
                         <Tab eventKey="restaurants" title="restaurants">
-                            <Row>
-                                <Restaurants />
-                            </Row>
+                            <Restaurants />
                         </Tab>
                     </Tabs>
                 </Col>

@@ -8,7 +8,7 @@ export default function LoginModal() {
     const [handleSubmit, handleChange] = useForm(registerUser);
     const [displaySignUpModal, setDisplaySignUpModal] = useState(false);
 
-    const { setIsLoading, apiUrl, devUrl, setToken, isLoggedIn, setIsLoggedIn, setUser } = useContext(GlobalContext);
+    const { setIsLoading, baseUrl, setToken, isLoggedIn, setIsLoggedIn, setUser } = useContext(GlobalContext);
 
     function registerUser(newUserData) {
         signup(newUserData);
@@ -19,7 +19,7 @@ export default function LoginModal() {
         setIsLoading(true);
         const config = {
             method: 'post',
-            url: apiUrl ? apiUrl + '/signup/' : devUrl + '/signup/',
+            url: `${baseUrl}/signup/`,
             data: userInput,
         };
 
@@ -47,8 +47,8 @@ export default function LoginModal() {
 
     return (
         !isLoggedIn && (
-            <div>
-                <Button variant="outline-dark" className="m-1" onClick={toggleSignUpModal}>
+            <div className="d-inline-block">
+                <Button size="lg" variant="outline-dark" className="m-1" onClick={toggleSignUpModal}>
                     Sign up
                 </Button>
                 <Modal show={displaySignUpModal} onHide={toggleSignUpModal} onSubmit={handleSubmit}>

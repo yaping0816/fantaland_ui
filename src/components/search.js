@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import useForm from '../hooks/useForm.js';
-import { FloatingLabel, Form } from 'react-bootstrap';
+import { Container, FloatingLabel, Form } from 'react-bootstrap';
 import { GlobalContext } from '../context/global_context.js';
 import axios from 'axios';
 
@@ -11,8 +11,7 @@ export default function Search() {
         setIsLoading,
         setAttractionsCount,
         currentPage,
-        apiUrl,
-        devUrl,
+        baseUrl,
         setAttractionsList,
         setRestaurantsList,
         setRestaurantsCount,
@@ -57,7 +56,7 @@ export default function Search() {
     async function getCityInfo(userInput) {
         const config = {
             method: 'get',
-            url: apiUrl ? apiUrl + '/city_info/' : devUrl + '/city_info/',
+            url: `${baseUrl}/city_info/`,
             params: userInput,
         };
         return await axios(config);
@@ -66,7 +65,7 @@ export default function Search() {
     async function getAttractionsCount(lat, lon) {
         const config = {
             method: 'get',
-            url: apiUrl ? apiUrl + '/attractions_count/' : devUrl + '/attractions_count/',
+            url: `${baseUrl}/attractions_count/`,
             params: {
                 lat,
                 lon,
@@ -78,7 +77,7 @@ export default function Search() {
     async function getAttractionsList(lat, lon, page) {
         const config = {
             method: 'get',
-            url: apiUrl ? apiUrl + '/list/attractions/' : devUrl + '/list/attractions/',
+            url: `${baseUrl}/list/attractions/`,
             params: {
                 lat,
                 lon,
@@ -91,7 +90,7 @@ export default function Search() {
     async function getRestaurantsList(lat, lon, page) {
         const config = {
             method: 'get',
-            url: apiUrl ? apiUrl + '/list/restaurants/' : devUrl + '/list/restaurants/',
+            url: `${baseUrl}/list/restaurants/`,
             params: {
                 lat,
                 lon,
@@ -104,7 +103,7 @@ export default function Search() {
     async function getWeatherInfo(lat, lon) {
         const config = {
             method: 'get',
-            url: apiUrl ? apiUrl + '/weather_info/' : devUrl + '/weather_info/',
+            url: `${baseUrl}/weather_info/`,
             params: {
                 lat,
                 lon,
@@ -114,18 +113,24 @@ export default function Search() {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <FloatingLabel controlId="name" label="Where do you wanna go? Please input a city name." className="mb-3">
-                <Form.Control
-                    size="lg"
-                    type="text"
-                    required
-                    name="name"
+        <Container>
+            <Form onSubmit={handleSubmit}>
+                <FloatingLabel
+                    controlId="name"
+                    label="Where do you wanna go? Please input a city name."
                     className="mb-3"
-                    placeholder="location"
-                    onChange={handleChange}
-                />
-            </FloatingLabel>
-        </Form>
+                >
+                    <Form.Control
+                        size="lg"
+                        type="text"
+                        required
+                        name="name"
+                        className="mb-3"
+                        placeholder="location"
+                        onChange={handleChange}
+                    />
+                </FloatingLabel>
+            </Form>
+        </Container>
     );
 }

@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
-import { GlobalContext } from '../context/global_context.js';
 import PropTypes from 'prop-types';
 
 AttractionCard.propTypes = {
     data: PropTypes.object,
     toggleDisplayAttractionModal: PropTypes.func,
     getDetails: PropTypes.func,
+    deleteSavedRecord: PropTypes.func,
 };
 
 export default function AttractionCard(props) {
-    const { isLoggedIn } = useContext(GlobalContext);
     const attractionImgCollection = {
         'tourist place': 'https://cdn2.iconfinder.com/data/icons/travel-leisure/100/04-512.png',
         sculptures: 'https://cdn0.iconfinder.com/data/icons/museum-3/512/b93_4-512.png',
@@ -46,20 +45,29 @@ export default function AttractionCard(props) {
     const attractionKind = parseKinds(props.data?.kinds);
     const attractionIconUrl = attractionImgCollection[attractionKind];
     function handleDisplayDetails() {
-        props.getDetails(props.data?.xid);
+        props.getDetails(props.data?.api_id || props.data?.xid);
         props.toggleDisplayAttractionModal();
     }
+
+    function handleDeleteRecord() {
+        props.deleteSavedRecord(props.data?.id);
+    }
+
     return (
-        <Col lg={3} md={4} sm={6} className="p-1">
-            <Card onClick={handleDisplayDetails}>
-                <Card.Img variant="top" src={attractionIconUrl} />
+        <Col lg={3} md={6} sm={6} className="p-1">
+            <Card>
+                <Card.Img variant="top" src={attractionIconUrl} onClick={handleDisplayDetails} />
                 <Card.Body>
                     <Card.Title>{props.data?.name}</Card.Title>
                     <Card.Text>{attractionKind}</Card.Text>
                     <Button variant="primary" onClick={handleDisplayDetails}>
                         Details
                     </Button>
-                    {isLoggedIn && <Button variant="primary">Save</Button>}
+                    {props.data?.api_id && (
+                        <Button variant="primary" onClick={handleDeleteRecord}>
+                            DELETE
+                        </Button>
+                    )}
                 </Card.Body>
             </Card>
         </Col>

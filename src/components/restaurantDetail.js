@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Image } from 'react-bootstrap';
+import { Modal, Image, Button } from 'react-bootstrap';
+import { GlobalContext } from '../context/global_context.js';
 import Loader from './loader.js';
 
 RestaurantDetail.propTypes = {
@@ -9,9 +10,12 @@ RestaurantDetail.propTypes = {
     isLoading: PropTypes.bool,
     detailData: PropTypes.object,
     parseRestaurantCategories: PropTypes.func,
+    addNewRecord: PropTypes.func,
 };
 
 export default function RestaurantDetail(props) {
+    const { isLoggedIn, isViewingSavedRecord } = useContext(GlobalContext);
+
     const address = `${props.detailData?.location?.address1}, ${props.detailData?.location?.city} ${props.detailData?.location?.state} ${props.detailData?.location?.zip_code}`;
 
     function randomImgPicker() {
@@ -22,10 +26,24 @@ export default function RestaurantDetail(props) {
         return props.detailData?.image_url;
     }
 
+    function handleAddRecord() {
+        props.addNewRecord(props.detailData);
+    }
+
+    function showSaveBtn() {
+        console.log('is viewing saved record: ', isViewingSavedRecord);
+        return isLoggedIn && !isViewingSavedRecord;
+    }
+
     return (
         <Modal size="lg" show={props.displayDetailsModal} onHide={props.toggleDisplayRestaurantModal}>
             <Modal.Header closeButton className="bg-info text-white">
                 <Modal.Title>{props.detailData?.name}</Modal.Title>
+                {showSaveBtn() && (
+                    <Button variant="primary" onClick={handleAddRecord}>
+                        Save
+                    </Button>
+                )}
             </Modal.Header>
 
             <Modal.Body className="h4">
@@ -45,7 +63,9 @@ export default function RestaurantDetail(props) {
                         <a href={`tel:${props.detailData?.phone}`} className="d-block">
                             {props.detailData?.display_phone}
                         </a>
-                        <a href={props.detailData?.url}>See at Yelp.com</a>
+                        <a href={props.detailData?.url} target="_blank" rel="noopener noreferrer">
+                            See at Yelp.com
+                        </a>
                     </>
                 )}
             </Modal.Body>

@@ -5,8 +5,7 @@ import useForm from '../hooks/useForm.js';
 import axios from 'axios';
 
 export default function Login() {
-    const { isLoggedIn, setIsLoggedIn, user, setUser, setToken, setIsLoading, apiUrl, devUrl } =
-        useContext(GlobalContext);
+    const { setIsLoggedIn, setUser, setToken, setIsLoading, baseUrl } = useContext(GlobalContext);
     const [handleSubmit, handleChange] = useForm(loginUser);
     const [displayLoginModal, setDisplayLoginModal] = useState(false);
 
@@ -19,7 +18,7 @@ export default function Login() {
         setIsLoading(true);
         const config = {
             method: 'post',
-            url: apiUrl ? apiUrl + '/login/' : devUrl + '/login/',
+            url: `${baseUrl}/login/`,
             data: userInput,
         };
         try {
@@ -47,16 +46,9 @@ export default function Login() {
         setDisplayLoginModal(!displayLoginModal);
     }
 
-    return isLoggedIn ? (
-        <div>
-            <h4>{user ? `Welcome Back, ${user.username}` : 'hi'}</h4>
-            <Button variant="dark" onClick={logout}>
-                Sign Out
-            </Button>
-        </div>
-    ) : (
-        <div>
-            <Button variant="outline-dark" className="m-1" onClick={toggleLoginModal}>
+    return (
+        <div className="d-inline-block">
+            <Button size="lg" variant="outline-dark" className="m-1" onClick={toggleLoginModal}>
                 Log In
             </Button>
             <Modal show={displayLoginModal} onHide={toggleLoginModal} onSubmit={handleSubmit}>

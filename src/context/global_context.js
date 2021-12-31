@@ -15,10 +15,14 @@ function GlobalContextProvider(props) {
     const [restaurantsList, setRestaurantsList] = useState([]);
     const [weatherInfo, setWeatherInfo] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
+    const [isViewingSavedRecord, setIsViewingSavedRecord] = useState(false);
 
     const apiUrl = process.env.REACT_APP_API_URL;
     const devUrl = process.env.REACT_APP_LOCAL_DEV_URL;
+    const baseUrl = apiUrl ? apiUrl : devUrl;
+
     function resetAllData() {
+        setMyLocationId(0);
         setLocation({});
         setAttractionsCount(0);
         setAttractionsList([]);
@@ -26,6 +30,7 @@ function GlobalContextProvider(props) {
         setRestaurantsList([]);
         setCurrentPage(1);
         setWeatherInfo({});
+        setIsViewingSavedRecord(false);
     }
 
     // for testing purpose only
@@ -84,9 +89,10 @@ function GlobalContextProvider(props) {
                 setRestaurantsList,
                 weatherInfo,
                 setWeatherInfo,
-                apiUrl,
-                devUrl,
+                baseUrl,
                 resetAllData,
+                isViewingSavedRecord,
+                setIsViewingSavedRecord,
             }}
         >
             {props.children}
@@ -96,7 +102,7 @@ function GlobalContextProvider(props) {
 
 import PropTypes from 'prop-types';
 GlobalContextProvider.propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.array,
 };
 
 export default GlobalContextProvider;
