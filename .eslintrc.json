@@ -1,0 +1,35 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "commonjs": true,
+        "jest": true,
+        "es6": true
+    },
+    "globals": {
+        "fail": true
+    },
+    "plugins": ["react"],
+    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react-hooks/recommended"],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "requireConfigFile": false,
+        "sourceType": "module",
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "babelOptions": {
+            "presets": ["@babel/preset-react"]
+        }
+    },
+    "rules": {
+        "no-console": "off",
+        "indent": ["warn", 4, { "SwitchCase": 1 }],
+        "quotes": ["warn", "single", { "allowTemplateLiterals": true }],
+        "comma-dangle": ["warn", "always-multiline"],
+        "semi": ["warn", "always"],
+        "no-unused-vars": [1, { "vars": "local", "args": "none" }],
+        "react/no-set-state": "off"
+    }
+}

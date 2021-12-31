@@ -1,0 +1,27 @@
+.bg-image {
+    background-image: url('background.jpeg');
+
+    /* Add the blur effect */
+    /* filter: blur(2px);
+    -webkit-filter: blur(2px); */
+
+    /* Full height */
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.7;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -2;
+    /* background-attachment: fixed; */
+    position: fixed;
+}
+
+.center-cropped {
+    object-fit: none; /* Do not scale the image */
+    object-position: center; /* Center the image within the element */
+    width: 100%;
+    height: 200px;
+}

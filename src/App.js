@@ -1,25 +1,23 @@
-import logo from './logo.svg';
+import React, { useContext } from 'react';
 import './App.css';
+import Header from './components/header.js';
+import Search from './components/search.js';
+import Result from './components/result.js';
+import Loader from './components/loader.js';
+import { Container } from 'react-bootstrap';
+import { GlobalContext } from './context/global_context.js';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { isLoading, location } = useContext(GlobalContext);
+    return (
+        <div>
+            <Header />
+            <Container className="p-3">
+                <Search />
+                {isLoading ? <Loader /> : Object.keys(location).length !== 0 ? <Result /> : <></>}
+            </Container>
+        </div>
+    );
 }
 
 export default App;
